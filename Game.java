@@ -4,7 +4,7 @@ public class Game {
 		
 		String[][] field = setField(3, 3);
 		//field = setMine(0, 3);
-		showField(field);
+		showField(field, 3, 3);
 	}
 
 	public static String[][] setField(int rows, int collums) {
@@ -17,5 +17,12 @@ public class Game {
 		
 		return mineField;
 	}
-	public static 
+	public static void showField(String[][] field, int rows, int collums) {
+		for(int i = 0; i<rows; i++) {
+			for(int j = 0; j < collums; j++) {
+				System.out.print(field[i][j]);
+			}
+			System.out.println();
+		}
+	}
 }
