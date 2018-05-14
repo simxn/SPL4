@@ -55,8 +55,10 @@ public class Game {
 
 	public static boolean hitButton(int rows, int collums) {
 		if (field[rows][collums] == "[X]") {
+			playground[rows][collums] = "[!]";
 			System.out.println("Bang! - you've hit a mine!");
 			System.out.println("Game over...");
+			showField();
 			return true;
 		} else {
 			playground[rows][collums] = "[*]";
