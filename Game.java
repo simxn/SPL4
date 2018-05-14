@@ -2,6 +2,7 @@ import javax.swing.JOptionPane;
 
 public class Game {
 
+	static int counter = 0;
 	static int _rows = 3;
 	static int _collums = 3;
 	static int mines = 0;
@@ -12,9 +13,9 @@ public class Game {
 
 		boolean end = false;
 		while (end == false) {
-			showField();
-			int posRow = input("Please select a row.");
-			int posCollum = input("Now, please choose a collum.");
+			showField(false);
+			int posRow = input("Please select a row.", _rows);
+			int posCollum = input("Now, please choose a collum.", _collums);
 			end = hitButton(posRow, posCollum);
 
 		}
@@ -37,19 +38,37 @@ public class Game {
 		return mineField;
 	}
 
-	public static void showField() {
-		for (int i = 0; i < _rows; i++) {
-			for (int j = 0; j < _collums; j++) {
-				System.out.print(playground[i][j]);
+	public static void showField(boolean showMines) {
+		if (showMines == false) {
+			for (int i = 0; i < _rows; i++) {
+				for (int j = 0; j < _collums; j++) {
+					System.out.print(playground[i][j]);
+				}
+				System.out.println();
 			}
+			System.out.println("---------");
+			System.out.println();
+		} else if (showMines == true) {
+			for (int i = 0; i < _rows; i++) {
+				for (int j = 0; j < _collums; j++) {
+					if (field[i][j] == "[X]") {
+						System.out.print(field[i][j]);
+					} else {
+						System.out.print(playground[i][j]);
+					}
+				}
+				System.out.println();
+			}
+			System.out.println("---------");
 			System.out.println();
 		}
-		System.out.println("---------");
-		System.out.println();
 	}
 
-	public static int input(String text) {
+	public static int input(String text, int max) {
 		String input = JOptionPane.showInputDialog(text);
+		if (Integer.parseInt(input) >= max) {
+			System.out.println("Warning! Input's too large for this kind of size.");
+		}
 		return Integer.parseInt(input);
 	}
 
@@ -58,10 +77,14 @@ public class Game {
 			playground[rows][collums] = "[!]";
 			System.out.println("Bang! - you've hit a mine!");
 			System.out.println("Game over...");
-			showField();
+			System.out.println("You had " + counter + " valid tries.");
+			System.out.println();
+			System.out.println("Solution:");
+			showField(true);
 			return true;
 		} else {
 			playground[rows][collums] = "[*]";
+			counter++;
 		}
 		return false;
 	}
