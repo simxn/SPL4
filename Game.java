@@ -3,14 +3,17 @@ import javax.swing.JOptionPane;
 public class Game {
 
 	static int counter = 0;
-	static int _rows = 3;
-	static int _collums = 3;
+	static int _rows = 9;
+	static int _collums = 9;
 	static int mines = 0;
 	static String[][] field = setField(_rows, _collums, true);
 	static String[][] playground = setField(_rows, _collums, false);
 
 	public static void main(String[] args) {
-
+		
+		//Für Testzwecke
+		showField(true);
+		
 		boolean end = false;
 		while (end == false) {
 			showField(false);
@@ -20,7 +23,10 @@ public class Game {
 
 		}
 	}
-
+	public static int getCoordinates() {
+		int coordinate = (int) (Math.random()*_rows);
+		return coordinate;
+	}
 	public static String[][] setField(int rows, int collums, boolean setMines) {
 		String[][] mineField = new String[rows][collums];
 		for (int i = 0; i < rows; i++) {
@@ -30,9 +36,9 @@ public class Game {
 		}
 		if (setMines == true) {
 
-			mineField[(rows - 1)][0] = "[X]";
-			mineField[(rows - 1)][(collums - 1)] = "[X]";
-			mineField[0][(collums - 1)] = "[X]";
+			mineField[getCoordinates()][getCoordinates()]= "[X]";
+			mineField[getCoordinates()][getCoordinates()] = "[X]";
+			mineField[getCoordinates()][getCoordinates()] = "[X]";
 			mines = 3;
 		}
 		return mineField;
