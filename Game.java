@@ -1,11 +1,13 @@
 import javax.swing.JOptionPane;
 
 public class Game {
-	
+
 	static int _rows = 3;
 	static int _collums = 3;
-	static String[][] field = setField(_rows, _collums);
-	
+	static int mines = 0;
+	static String[][] field = setField(_rows, _collums, true);
+	static String[][] playground = setField(_rows, _collums, false);
+
 	public static void main(String[] args) {
 
 		boolean end = false;
@@ -14,28 +16,31 @@ public class Game {
 			int posRow = input("Please select a row.");
 			int posCollum = input("Now, please choose a collum.");
 			end = hitButton(posRow, posCollum);
-			
+
 		}
 	}
 
-	public static String[][] setField(int rows, int collums) {
+	public static String[][] setField(int rows, int collums, boolean setMines) {
 		String[][] mineField = new String[rows][collums];
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < collums; j++) {
 				mineField[i][j] = "[ ]";
 			}
 		}
-		mineField[(rows - 1)][0] = "[X]";
-		mineField[(rows - 1)][collums - 1] = "[X]";
-		mineField[0][(collums - 1)] = "[X]";
-		
+		if (setMines == true) {
+
+			mineField[(rows - 1)][0] = "[X]";
+			mineField[(rows - 1)][(collums - 1)] = "[X]";
+			mineField[0][(collums - 1)] = "[X]";
+			mines = 3;
+		}
 		return mineField;
 	}
 
 	public static void showField() {
 		for (int i = 0; i < _rows; i++) {
 			for (int j = 0; j < _collums; j++) {
-				System.out.print(field[i][j]);
+				System.out.print(playground[i][j]);
 			}
 			System.out.println();
 		}
@@ -47,11 +52,14 @@ public class Game {
 		String input = JOptionPane.showInputDialog(text);
 		return Integer.parseInt(input);
 	}
+
 	public static boolean hitButton(int rows, int collums) {
-		if(field[rows][collums] == "[X]") {
+		if (field[rows][collums] == "[X]") {
 			System.out.println("Bang! - you've hit a mine!");
 			System.out.println("Game over...");
 			return true;
+		} else {
+			playground[rows][collums] = "[*]";
 		}
 		return false;
 	}
